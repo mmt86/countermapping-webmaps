@@ -45,14 +45,15 @@
     I am making a map of NYC showing the Housing Flood Risk during Hurricane Sandy. I show the flood through the inundation zone. This data is compared to the location of public housing developments. My data is from NYC Open Data.
   	</div>
   	</div>
-
+  
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoibW10ODYiLCJhIjoiY2xuMXVkazRrMDF0aTJqbXc1dWxnemFndiJ9.-Cn6UqEvKLq5Ybw1SQ6-OQ'
    const map = new mapboxgl.Map({
   container: 'map', // container id
   style: 'mapbox://styles/mmt86/cln36p98s06gu01p7ect7bnqp' 
   center: [-73.935242, 40.730610], 
-  zoom: 12 // 
+  zoom: 12
+  minZoom: 12
 });
 </script>
 
