@@ -131,6 +131,11 @@
 
     map.on('load',function(){
       // Give your layer's source a nickname you'll remember easily.
+      map.addSource('affHouselayer',{
+        'type':'vector',
+        'url': 'mapbox://iamwfx.ab4g098q'
+      });
+
       map.addSource('sandyLayer',{
         'type':'vector',
         'url': 'mapbox://iamwfx.bpjzmy2b'
@@ -207,6 +212,16 @@
       //   }
       // });
 
+      map.addLayer({
+        'id':'AffHouse',
+        'type':'fill',
+        'source':'affHouselayer',
+        'source-layer':'PLUTO_HOUS_TYPE_MASTER_Featu-7b5u7f',
+        'paint':{
+          'fill-color':'#FF24EE',
+          'fill-opacity': 0.3,
+        }
+      });
 
       map.addLayer({
         'id':'floodZones',
