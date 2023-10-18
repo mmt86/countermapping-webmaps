@@ -13,7 +13,7 @@
 <meta charset="utf-8" />
 
 <!-- The title of your page, which will appear in the browser tab -->
-<title>NYC Housing Flood Risk</title>  
+<title>NYC Housing Flood Risk</title>
 
 <!-- The size of the viewport vs the rendered page -->
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
@@ -45,15 +45,47 @@
     I am making a map of NYC showing the Housing Flood Risk during Hurricane Sandy. I show the flood through the inundation zone. This data is compared to the location of public housing developments. My data is from NYC Open Data.
   	</div>
   	</div>
-  
+
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoibW10ODYiLCJhIjoiY2xuMXVkazRrMDF0aTJqbXc1dWxnemFndiJ9.-Cn6UqEvKLq5Ybw1SQ6-OQ';
 const map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mmt86/cln36p98s06gu01p7ect7bnqp',
-  center: [-73.935242, 40.730610], 
+  center: [-73.935242, 40.730610],
   zoom: 12,
   minZoom: 12
+});
+map.on('load',function(){
+  // Give your layer's source a nickname you'll remember easily. I've called my source `sandy_layer`.
+  map.addSource('sandy_layer',{
+    'type':'vector',
+    'url': 'mapbox://mmt86.3fr4wvl3'
+  });
+  map.addSource('nyc_layer',{
+    'type':'vector',
+    'url': 'mapbox://mmt86.1idxzcl4'
+  });
+  // add a new layer with your polygons
+  map.addLayer({
+    'id':'flood_zones',
+    'type':'fill',
+    'source':'sandy_layer',
+    'source-layer':'Sandy_Inundation_Zone-3x27xp',
+    'paint':{
+      'fill-color':'#00158f',
+      'fill-opacity': 0.5
+    }
+  })
+  map.addLayer({
+    'id':'housing_zones',
+    'type':'fill',
+    'source':'nyc_layer',
+    'source-layer':'Map_of_NYCHA_Developments-6x4iwl',
+    'paint':{
+      'fill-color':'#FF0000',
+      'fill-opacity': 0.5
+    }
+  })
 });
 </script>
 
