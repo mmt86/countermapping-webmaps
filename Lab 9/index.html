@@ -218,7 +218,19 @@
         'source':'affHouselayer',
         'source-layer':'PLUTO_HOUS_TYPE_MASTER_Featu-7b5u7f',
         'paint':{
-          'line-color':'#FF24EE',
+          'line-color':[
+            'match',
+            ['get', 'house_type'],
+            'White',
+            '#fbb03b',
+            'Black',
+            '#223b53',
+            'Hispanic',
+            '#e55e5e',
+            'Asian',
+            '#3bb2d0',
+            /* other */ '#ccc'
+            ],
           'line-opacity': 1,
           'line-width': 2
         }
