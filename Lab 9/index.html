@@ -47,25 +47,32 @@
               <input id='AffHouse' type='checkbox' name='viz-toggle' checked='checked'>
           </label>
           <label class='check-container'>Co-Op
-              <span class="legend-key" style='background:#CCC'></span>
+              <span class="legend-key" style='background:#00A878'></span>
+
           </label>
           <label class='check-container'>Shelter
-              <span class="legend-key" style='background:#CCC'></span>
+              <span class="legend-key" style='background:#D8F1A0'></span>
+
           </label>
           <label class='check-container'>HPD subsized
-              <span class="legend-key" style='background:#CCC'></span>
+              <span class="legend-key" style='background:#FE5E41'></span>
+
           </label>
           <label class='check-container'>Mobile Home
-              <span class="legend-key" style='background:#CCC'></span>
+              <span class="legend-key" style='background:#CF1259'></span>
+
           </label>
           <label class='check-container'>Public Housing
-              <span class="legend-key" style='background:#CCC'></span>
+              <span class="legend-key" style='background:#EC9A29'></span>
+
           </label>
           <label class='check-container'>Single-Residency Housing
-              <span class="legend-key" style='background:#CCC'></span>
+              <span class="legend-key" style='background:#00FDDC'></span>
+
           </label>
           <label class='check-container'>Other
               <span class="legend-key" style='background:#CCC'></span>
+
           </label>
 
       <br>
@@ -220,19 +227,28 @@
         'paint':{
           'line-color':[
             'match',
-            ['get', 'house_type'],
-            'White',
-            '#fbb03b',
-            'Black',
-            '#223b53',
-            'Hispanic',
-            '#e55e5e',
-            'Asian',
-            '#3bb2d0',
+            ['get', 'hous_type'],
+            'coop',
+            '#00A878',
+            'homeless',
+            '#D8F1A0',
+            'hpd_sub',
+            '#FE5E41',
+            'mob_home',
+            '#CF1259',
+            'pub_hou',
+            '#EC9A29',
+            'sro',
+            '#00FDDC',
             /* other */ '#ccc'
             ],
           'line-opacity': 1,
-          'line-width': 2
+          'line-width': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            13, 2,
+            18, 10],
         }
       });
 
@@ -344,6 +360,38 @@
     }
 
   });
+  const popup = new mapboxgl.Popup({
+  closeButton: false,
+  closeOnClick: false
+  });
+map.on('mouseenter','AffHouse',function(e){
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    // Here's that function that does the transformation
+function emptyToYesNo(val){
+  if (val.length > 1){
+return "Yes"} else {return "No"};
+}
+const Address = e.features[0].properties.Address;
+const BBL = e.features[0].properties.BBL;
+const Council = e.features[0].properties.Council;
+const P_2050_1 =emptyToYesNo(e.features[0].properties.P_2050_1);
+const P_2050_5 =emptyToYesNo(e.features[0].properties.P_2050_5);
+const P_2100_1 =emptyToYesNo(e.features[0].properties.P_2100_1);
+const P_2100_5 =emptyToYesNo(e.features[0].properties.P_2100_5);
+
+var description = '<h4> ' +Address+'<br>'+
+                  'BBL: '+BBL+'<br>'+
+                  'City Council District: '+Council+ '</h4>'+
+                  '<p> In 2050 1 in 100yr Floodplain?: '+ P_2050_1 + '<br>' + 'In 2050 1 in 500yr Floodplain?: '+P_2050_5 +'<br>'+
+                  'In 2100 1 in 100yr Floodplain?: '+P_2100_1 +'<br>'+
+                  'In 2100 1 in 500yr Floodplain?: '+P_2100_5 +'</p>'
+popup.setLngLat(coordinates[0][0]).setHTML(description).addTo(map);
+})
+
+map.on('mouseleave', 'affHousing', function() {
+map.getCanvas().style.cursor = '';
+popup.remove();
+});
 
     // Within a script, you comment using two backslashes.
     </script>
